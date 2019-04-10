@@ -1,0 +1,18 @@
+jobs:
+  build:
+    branches:
+      only:
+        - master
+    machine:
+      image: 'circleci/classic:edge'
+    steps:
+      - checkout
+      - run: bash .circleci/setup.sh
+      - run:
+          name: Build, push and release
+          command: |
+            heroku container:login
+            heroku container:push web --app $APP_NAME
+            heroku container:release web --app $APP_NAME
+
+
