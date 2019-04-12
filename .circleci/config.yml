@@ -1,18 +1,86 @@
+version: 2
 jobs:
-  build:
-    branches:
-      only:
-        - master
-    machine:
-      image: 'circleci/classic:edge'
+  install_test:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node
     steps:
       - checkout
-      - run: bash .circleci/setup.sh
+      - restore_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+      - restore_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+      - run: yarn install
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - ~/.cache/yarn
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+      - run: yarn test
+      - persist_to_workspace:
+          root: ~/app
+          paths:
+            - node_modules
+  deploy:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node
+    description: Deploy to firebase
+    steps:
+      - checkout:
+          path: ~/app
+      - attach_workspace:
+          at: ~/app
+      - run: yarn build
       - run:
-          name: Build, push and release
-          command: |
-            heroku container:login
-            heroku container:push web --app $APP_NAME
-            heroku container:release web --app $APP_NAME
-
+          name: Install Firebase Tools
+          command: npm install --prefix=./firebase-deploy firebase-tools
+      - run:
+          name: Use default
+          command: ./firebase-deploy/node_modules/.bin/firebase use default
+      - run:
+          name: Deploy to Firebase
+          command: ./firebase-deploy/node_modules/.bin/firebase deploy --token="$FIREBASE_TOKEN"
+  deploy-staging:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node
+    description: Deploy to firebase
+    steps:
+      - checkout:
+          path: ~/app
+      - attach_workspace:
+          at: ~/app
+      - run: yarn build
+      - run:
+          name: Install Firebase Tools
+          command: npm install --prefix=./firebase-deploy firebase-tools
+      - run:
+          name: Use default
+          command: ./firebase-deploy/node_modules/.bin/firebase use staging
+      - run:
+          name: Deploy to Firebase
+          command: ./firebase-deploy/node_modules/.bin/firebase deploy --token="$FIREBASE_TOKEN"
+workflows:
+  version: 2
+  build_deploy:
+    jobs:
+      - install_test
+      - deploy-staging:
+          filters:
+            branches:
+              only:
+                - develop
+          requires:
+            - install_test
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - install_test
 

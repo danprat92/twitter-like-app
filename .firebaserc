@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "sustained-kit-176914",
+    "staging": "my-website-staging-b9825"
+  }
+}
