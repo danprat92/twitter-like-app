@@ -1,6 +1,5 @@
 {
   "projects": {
-    "default": "my-website-staging-b9825",
-    "staging": "sustained-kit-176914"
+    "default": "twitter-like-app-1ed13"
   }
 }
