@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  install_test:
+  install_test_lint:
     working_directory: ~/app
     docker:
       - image: circleci/node
@@ -20,6 +20,7 @@ jobs:
           paths:
             - node_modules
       - run: yarn test
+      - run: yarn lint
       - persist_to_workspace:
           root: ~/app
           paths:
@@ -48,12 +49,11 @@ workflows:
   version: 2
   build_deploy:
     jobs:
-      - install_test
+      - install_test_lint
       - deploy:
           filters:
             branches:
               only:
                 - master
           requires:
-            - install_test
-
+            - install_test_lint
