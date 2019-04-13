@@ -1,4 +1,13 @@
-// TODO clean this readme
+# Setting up env
+
+This steps assumes you are working with vscode and MacOS
+
+- Install https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+- Install https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin
+- Install docker for mac
+- Install npm and yarn
+
+# React README
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
