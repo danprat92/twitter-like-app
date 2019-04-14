@@ -23,8 +23,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "CI=true yarn test",
     "lint": "tslint 'src/**/*.{ts, tsx}' --project tsconfig.json",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "hooks": "git config core.hooksPath .githooks"
   },
   "eslintConfig": {
     "extends": "react-app"
