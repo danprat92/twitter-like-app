@@ -1,15 +1,35 @@
 import React from 'react';
-import messages from '../../messages';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import LoginContainer from '../../containers/LoginContainer';
+import HomeContainer from '../../containers/HomeContainer';
 import './index.css';
 
-const App = () => (
-  <div className="app">
-    <div className="container">
-      <h1 className="title">
-        {messages.INTRO}
-      </h1>
-    </div>
-  </div>
-);
+class App extends React.Component {
+  public constructor(props: any) {
+    super(props);
+  }
+  public render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => this.renderComponent(HomeContainer, props)}
+          />
+          <Route
+            exact
+            path="/login"
+            render={props => this.renderComponent(LoginContainer, props)}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+  private renderComponent(Component: any, props: any) {
+    // TODO Check if user is logued in
+    return <Component {...props} />;
+  }
+}
 
 export default App;
