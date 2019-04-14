@@ -1,11 +1,15 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import LoginContainer from '../../containers/LoginContainer';
 import HomeContainer from '../../containers/HomeContainer';
 import './index.css';
 
-class App extends React.Component {
-  public constructor(props: any) {
+interface IAppProps {
+  userIsLoggedIn: boolean;
+}
+
+class App extends React.Component<IAppProps> {
+  public constructor(props: IAppProps) {
     super(props);
   }
   public render() {
@@ -15,19 +19,22 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={props => this.renderComponent(HomeContainer, props)}
+            render={props => this.renderComponent(HomeContainer, props, true)}
           />
           <Route
             exact
             path="/login"
-            render={props => this.renderComponent(LoginContainer, props)}
+            render={props => this.renderComponent(LoginContainer, props, false)}
           />
         </Switch>
       </BrowserRouter>
     );
   }
-  private renderComponent(Component: any, props: any) {
-    // TODO Check if user is logued in
+  private renderComponent(Component: any, props: any, isPrivate: boolean) {
+    if (isPrivate && !this.props.userIsLoggedIn) {
+      return <Redirect to="/login" />;
+    }
+
     return <Component {...props} />;
   }
 }
