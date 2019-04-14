@@ -19,7 +19,7 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
             - node_modules
-      - run: yarn test
+      - run: yarn test:ci
       - run: yarn lint
       - persist_to_workspace:
           root: ~/app
