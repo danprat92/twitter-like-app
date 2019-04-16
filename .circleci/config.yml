@@ -35,8 +35,13 @@ jobs:
           path: ~/app
       - attach_workspace:
           at: ~/app
+      - run: touch .env
+      - run:
+          echo 'REACT_APP_FIREBASE_API_KEY="$REACT_APP_FIREBASE_API"' >> .env |
+          echo 'REACT_APP_AUTH_URL="$REACT_APP_AUTH_URL"' >> .env |
+          echo 'REACT_APP_DATABASE_URL="$REACT_APP_FIREBASE_API"' >> .env
       - run: sudo apt-get install less
-      - run: ./fill-env.sh
+      - run: less -XF .env
       - run: yarn build
       - run:
           name: Install Firebase Tools
