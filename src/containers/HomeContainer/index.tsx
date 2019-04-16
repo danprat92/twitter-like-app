@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import Home from '../../components/Login';
+import Home from '../../components/Home';
 
 interface IHomeContainerProps extends RouteComponentProps<any> {}
 

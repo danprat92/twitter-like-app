@@ -1,5 +1,20 @@
 import React from 'react';
+import { PROVIDERS } from '../../redux/auth/types';
 
-const Login = () => <h1>Test</h1>;
+interface ILogin {
+  dispatchLogin: (provider: PROVIDERS) => void;
+}
+
+const Login: React.FunctionComponent<ILogin> = ({
+  dispatchLogin = (provider: PROVIDERS) => {
+    return provider;
+  },
+}) => {
+  const onClick = () => {
+    dispatchLogin(PROVIDERS.GOOGLE);
+  };
+
+  return <h1 onClick={onClick}>Test</h1>;
+};
 
 export default Login;

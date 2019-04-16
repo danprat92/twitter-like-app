@@ -1,0 +1,5 @@
+export const config = {
+  FIREBASE_API_KEY: process.env.REACT_APP_FIREBASE_API_KEY,
+  FIREBASE_AUTH_URL: process.env.REACT_APP_AUTH_URL,
+  FIREBASE_DB_URL: process.env.REACT_APP_DATABASE_URL,
+};

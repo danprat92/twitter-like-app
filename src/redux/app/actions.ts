@@ -1,1 +1,0 @@
-export const APP_INIT_FINISHED = 'APP_INIT_FINISHED';

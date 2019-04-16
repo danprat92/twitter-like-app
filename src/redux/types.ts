@@ -1,5 +1,7 @@
-import { IAppState } from './app/types';
+import { IAuthState, AuthActionTypes } from './auth/types';
 
 export interface IState {
-  app: IAppState;
+  auth: IAuthState;
 }
+
+export type IActions = AuthActionTypes;

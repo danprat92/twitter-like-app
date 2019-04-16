@@ -12,7 +12,7 @@ const AppContainer: React.FunctionComponent<IAppContainerReduxProps> = ({
 }) => <App userIsLoggedIn={userIsLoggedIn} />;
 
 const mapStateToProps = (state: IState) => {
-  const { userIsLoggedIn } = state.app;
+  const { userIsLoggedIn } = state.auth;
 
   return {
     userIsLoggedIn,
