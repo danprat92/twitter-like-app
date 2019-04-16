@@ -14,7 +14,7 @@
         "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache" }]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|css|js)",
+        "source": "**/*.@(jpg|jpeg|gif|png|css|js|woff2)",
         "headers": [{ "key": "Cache-Control", "value": "max-age=3300" }]
       },
       {

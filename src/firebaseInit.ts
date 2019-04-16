@@ -10,5 +10,4 @@ const firebaseApp = firebase.initializeApp({
 });
 
 const rsf = new ReduxSagaFirebase(firebaseApp);
-
 export default rsf;

@@ -26,6 +26,7 @@ class App extends React.Component<IAppProps> {
             path="/login"
             render={props => this.renderComponent(LoginContainer, props, false)}
           />
+          <Route render={() => <h1>Not found</h1>} />
         </Switch>
       </BrowserRouter>
     );
@@ -33,6 +34,8 @@ class App extends React.Component<IAppProps> {
   private renderComponent(Component: any, props: any, isPrivate: boolean) {
     if (isPrivate && !this.props.userIsLoggedIn) {
       return <Redirect to="/login" />;
+    } else if (!isPrivate && this.props.userIsLoggedIn) {
+      return <Redirect to="/" />;
     }
 
     return <Component {...props} />;

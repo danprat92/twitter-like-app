@@ -1,5 +1,19 @@
 import React from 'react';
 
-const Home = () => <h1>Test</h1>;
+interface IHome {
+  dispatchLogout: () => void;
+}
+
+const Home: React.FunctionComponent<IHome> = ({
+  dispatchLogout = () => {
+    return;
+  },
+}) => {
+  const onClick = () => {
+    dispatchLogout();
+  };
+
+  return <h1 onClick={onClick}>Logout</h1>;
+};
 
 export default Home;

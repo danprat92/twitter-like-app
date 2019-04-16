@@ -14,7 +14,7 @@ const Login: React.FunctionComponent<ILogin> = ({
     dispatchLogin(PROVIDERS.GOOGLE);
   };
 
-  return <h1 onClick={onClick}>Test</h1>;
+  return <h1 onClick={onClick}>Login Google</h1>;
 };
 
 export default Login;
