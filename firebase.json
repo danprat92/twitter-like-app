@@ -10,6 +10,14 @@
     ],
     "headers": [
       {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache" }]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|css|js)",
+        "headers": [{ "key": "Cache-Control", "value": "max-age=3300" }]
+      },
+      {
         "source": "/service-worker.js",
         "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
       },
