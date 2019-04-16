@@ -5,17 +5,25 @@ import { IState } from '../../redux/types';
 
 interface IAppContainerReduxProps {
   userIsLoggedIn: boolean;
+  loadingInitialState: boolean;
 }
 
 const AppContainer: React.FunctionComponent<IAppContainerReduxProps> = ({
   userIsLoggedIn,
-}) => <App userIsLoggedIn={userIsLoggedIn} />;
+  loadingInitialState,
+}) => (
+  <App
+    loadingInitialState={loadingInitialState}
+    userIsLoggedIn={userIsLoggedIn}
+  />
+);
 
 const mapStateToProps = (state: IState) => {
-  const { userIsLoggedIn } = state.auth;
+  const { userIsLoggedIn, loadingInitialState } = state.auth;
 
   return {
     userIsLoggedIn,
+    loadingInitialState,
   };
 };
 

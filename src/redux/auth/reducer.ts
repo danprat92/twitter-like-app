@@ -5,10 +5,12 @@ import {
   LOGIN_ERROR,
   LOGOUT_SUCCESS,
   LOGOUT_ERROR,
+  INITIAL_STATE_LOADED,
 } from './types';
 
 const initialState: IAuthState = {
   userIsLoggedIn: false,
+  loadingInitialState: true,
 };
 
 export function authReducer(
@@ -35,6 +37,11 @@ export function authReducer(
       return {
         ...state,
         userIsLoggedIn: true,
+      };
+    case INITIAL_STATE_LOADED:
+      return {
+        ...state,
+        loadingInitialState: false,
       };
     default:
       return state;

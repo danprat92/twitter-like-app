@@ -1,3 +1,4 @@
+import './setupMaterialHook';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -5,13 +6,22 @@ import './index.css';
 import AppContainer from './containers/AppContainer';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './configureStore';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 const store = configureStore();
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 ReactDOM.render(
-  <Provider store={store}>
-    <AppContainer />
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

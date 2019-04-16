@@ -1,0 +1,9 @@
+.container {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.loader {
+  width: 20%;
+  min-width: 200px;
+}

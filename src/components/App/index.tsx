@@ -1,11 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import LoginContainer from '../../containers/LoginContainer';
-import HomeContainer from '../../containers/HomeContainer';
+import PublicLayout from '../PublicLayout';
 import './index.css';
+import { IRoute, routes } from '../../routes';
+import PrivateLayout from '../PrivateLayout';
+import Splash from '../Splash';
 
 interface IAppProps {
   userIsLoggedIn: boolean;
+  loadingInitialState: boolean;
 }
 
 class App extends React.Component<IAppProps> {
@@ -18,27 +21,51 @@ class App extends React.Component<IAppProps> {
         <Switch>
           <Route
             exact
-            path="/"
-            render={props => this.renderComponent(HomeContainer, props, true)}
+            path={routes.home.route}
+            render={props => this.renderComponent(routes.home, props)}
           />
           <Route
             exact
-            path="/login"
-            render={props => this.renderComponent(LoginContainer, props, false)}
+            path={routes.login.route}
+            render={props => this.renderComponent(routes.login, props)}
           />
           <Route render={() => <h1>Not found</h1>} />
         </Switch>
       </BrowserRouter>
     );
   }
-  private renderComponent(Component: any, props: any, isPrivate: boolean) {
+  private renderComponent(componentToRender: IRoute, props: any) {
+    const {
+      isPrivate,
+      Component,
+      title,
+      route,
+      description,
+    } = componentToRender;
+
+    if (this.props.loadingInitialState) {
+      return <Splash description={description} title={title} url={route} />;
+    }
+
     if (isPrivate && !this.props.userIsLoggedIn) {
       return <Redirect to="/login" />;
     } else if (!isPrivate && this.props.userIsLoggedIn) {
       return <Redirect to="/" />;
     }
 
-    return <Component {...props} />;
+    if (isPrivate) {
+      return (
+        <PrivateLayout description={description} title={title} url={route}>
+          <Component {...props} />
+        </PrivateLayout>
+      );
+    }
+
+    return (
+      <PublicLayout description={description} title={title} url={route}>
+        <Component {...props} />
+      </PublicLayout>
+    );
   }
 }
 

@@ -6,6 +6,7 @@ import {
   PERFORM_LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_ERROR,
+  INITIAL_STATE_LOADED,
 } from './types';
 
 export const performLogin = (provider: PROVIDERS) => {
@@ -20,6 +21,12 @@ export const performLogin = (provider: PROVIDERS) => {
 export const performLogout = () => {
   return {
     type: PERFORM_LOGOUT,
+  };
+};
+
+export const initialStateLoaded = () => {
+  return {
+    type: INITIAL_STATE_LOADED,
   };
 };
 

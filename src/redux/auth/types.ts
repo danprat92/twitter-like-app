@@ -4,6 +4,7 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const PERFORM_LOGOUT = 'PERFORM_LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+export const INITIAL_STATE_LOADED = 'INITIAL_STATE_LOADED';
 
 export enum PROVIDERS {
   GOOGLE = 'GOOGLE',
@@ -18,6 +19,10 @@ export interface IPerformLogin {
 }
 
 export interface ILoginSuccess {
+  type: string;
+}
+
+export interface IInitialStateLoaded {
   type: string;
 }
 
@@ -39,6 +44,7 @@ export interface ILogoutError {
 
 export interface IAuthState {
   userIsLoggedIn: boolean;
+  loadingInitialState: boolean;
 }
 
 export type AuthActionTypes =
@@ -47,4 +53,5 @@ export type AuthActionTypes =
   | ILoginError
   | IPerformLogout
   | ILogoutError
-  | ILogoutSuccess;
+  | ILogoutSuccess
+  | IInitialStateLoaded;
