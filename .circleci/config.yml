@@ -35,6 +35,7 @@ jobs:
           path: ~/app
       - attach_workspace:
           at: ~/app
+      - run: sudo apt-get install less
       - run: ./fill-env.sh
       - run: yarn build
       - run:
