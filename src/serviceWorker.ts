@@ -23,7 +23,7 @@ const isLocalhost = Boolean(
 interface IConfig {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
-};
+}
 
 export function register(config?: IConfig) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
@@ -48,9 +48,7 @@ export function register(config?: IConfig) {
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready
-          .then()
-          .catch();
+        navigator.serviceWorker.ready.then().catch();
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
@@ -74,7 +72,6 @@ function registerValidSW(swUrl: string, config?: IConfig) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
@@ -83,7 +80,6 @@ function registerValidSW(swUrl: string, config?: IConfig) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-
               // Execute callback
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
@@ -107,11 +103,16 @@ function checkValidServiceWorker(swUrl: string, config?: IConfig) {
         (contentType !== null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then(registration => {
-          registration.unregister().then(() => {
-            window.location.reload();
-          }).catch();
-        }).catch();
+        navigator.serviceWorker.ready
+          .then(registration => {
+            registration
+              .unregister()
+              .then(() => {
+                window.location.reload();
+              })
+              .catch();
+          })
+          .catch();
       } else {
         // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config);
@@ -122,8 +123,13 @@ function checkValidServiceWorker(swUrl: string, config?: IConfig) {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister().then().catch();
-    }).catch();
+    navigator.serviceWorker.ready
+      .then(registration => {
+        registration
+          .unregister()
+          .then()
+          .catch();
+      })
+      .catch();
   }
 }
