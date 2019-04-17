@@ -19,7 +19,7 @@ const Splash: React.FunctionComponent<ISplash> = ({
     <Helmet>
       <title>{title}</title>
       <meta name="Description" content={description} />
-      <link rel="canonical" href={`${config.FIREBASE_DB_URL}/${url}`} />
+      <link rel="canonical" href={`${config.FIREBASE_DB_URL}${url}`} />
     </Helmet>
     <Grid container justify="center" alignItems="center" className="container">
       <LinearProgress className="loader" color="primary" />

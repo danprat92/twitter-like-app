@@ -25,3 +25,5 @@ export interface IRoute {
   description: string;
   isPrivate: boolean;
 }
+
+export default routes;

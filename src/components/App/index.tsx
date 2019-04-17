@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import PublicLayout from '../PublicLayout';
 import './index.css';
@@ -19,16 +19,14 @@ class App extends React.Component<IAppProps> {
     return (
       <BrowserRouter>
         <Switch>
-          <Route
-            exact
-            path={routes.home.route}
-            render={props => this.renderComponent(routes.home, props)}
-          />
-          <Route
-            exact
-            path={routes.login.route}
-            render={props => this.renderComponent(routes.login, props)}
-          />
+          {Object.keys(routes).map((current: string) => (
+            <Route
+              exact
+              key={current}
+              path={routes[current].route}
+              render={props => this.renderComponent(routes[current], props)}
+            />
+          ))}
           <Route render={() => <h1>Not found</h1>} />
         </Switch>
       </BrowserRouter>

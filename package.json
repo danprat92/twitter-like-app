@@ -13,7 +13,14 @@
     "@types/react-helmet": "^5.0.8",
     "@types/react-redux": "^7.0.6",
     "@types/react-router-dom": "^4.3.2",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.4",
+    "express": "^4.16.4",
     "firebase": "^5.9.4",
+    "fs": "^0.0.1-security",
+    "ignore-styles": "^5.0.1",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
@@ -24,11 +31,14 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.0.2",
     "redux-saga-firebase": "^0.15.0",
+    "serve-favicon": "^2.5.0",
     "typescript": "3.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:server": "cross-env NODE_ENV=development node build_server/compiled",
+    "build": "react-scripts build && yarn build:server",
+    "build:server": "node node_modules/webpack/bin/webpack.js --config webpack.server.config.js",
     "test": "react-scripts test",
     "test:ci": "CI=true yarn test",
     "lint": "tslint 'src/**/*.{ts, tsx}' --project tsconfig.json",
@@ -45,11 +55,21 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.4.0",
+    "@firebase/app-types": "0.x",
+    "@firebase/util": "0.x",
+    "app-root-path": "^2.2.1",
+    "cross-env": "^5.2.0",
     "prettier": "^1.17.0",
+    "ts-loader": "^5.3.3",
     "tslint": "^5.15.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-config-standard-plus": "^2.1.4",
-    "tslint-react": "^4.0.0"
+    "tslint-react": "^4.0.0",
+    "webpack-cli": "^3.3.0"
   }
 }

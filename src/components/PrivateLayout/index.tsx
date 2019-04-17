@@ -32,7 +32,7 @@ const PrivateLayout: React.FunctionComponent<IPrivateLayout> = ({
       <Helmet>
         <title>{title}</title>
         <meta name="Description" content={description} />
-        <link rel="canonical" href={`${config.FIREBASE_DB_URL}/${url}`} />
+        <link rel="canonical" href={`${config.FIREBASE_DB_URL}${url}`} />
       </Helmet>
       <Grid container className={classes.container}>
         <AppBar color="primary" position="static">
