@@ -1,7 +1,7 @@
 import HomeContainer from './containers/HomeContainer';
 import LoginContainer from './containers/LoginContainer';
 
-export const routes = {
+export const routes: any = {
   home: {
     title: 'Home',
     Component: HomeContainer,

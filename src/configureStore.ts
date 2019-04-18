@@ -3,10 +3,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './redux/reducers';
 import rootSaga from './redux/sagas';
+import { IState } from './redux/types';
 
 const composeEnhancers = composeWithDevTools({});
 
-const configureStore = () => {
+const configureStore = (ssrState: IState | {} = {}) => {
   const sagaMiddleware = createSagaMiddleware();
   let store = null;
 
@@ -14,7 +15,7 @@ const configureStore = () => {
     store = {
       ...createStore(
         rootReducer,
-        {},
+        ssrState,
         composeEnhancers(applyMiddleware(sagaMiddleware))
       ),
       runSaga: sagaMiddleware.run(rootSaga),
@@ -22,7 +23,7 @@ const configureStore = () => {
   } else {
     // We don't want devtools on production
     store = {
-      ...createStore(rootReducer, applyMiddleware(sagaMiddleware)),
+      ...createStore(rootReducer, ssrState, applyMiddleware(sagaMiddleware)),
       runSaga: sagaMiddleware.run(rootSaga),
     };
   }

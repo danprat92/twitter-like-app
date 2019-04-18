@@ -6,6 +6,9 @@ import { IState } from '../../redux/types';
 interface IAppContainerReduxProps {
   userIsLoggedIn: boolean;
   loadingInitialState: boolean;
+  router?: string;
+  location?: string;
+  context?: any;
 }
 
 const AppContainer: React.FunctionComponent<IAppContainerReduxProps> = ({

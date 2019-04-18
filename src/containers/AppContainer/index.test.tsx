@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import AppContainer from './index';
 import configureStore from '../../configureStore';
+import { BrowserRouter } from 'react-router-dom';
 
 const store = configureStore();
 const theme = createMuiTheme({
@@ -18,7 +19,9 @@ it('renders without crashing', () => {
   ReactDOM.render(
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <AppContainer />
+        <BrowserRouter>
+          <AppContainer />
+        </BrowserRouter>
       </Provider>
     </ThemeProvider>,
     div

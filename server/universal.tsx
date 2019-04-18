@@ -1,21 +1,31 @@
 /* tslint:disable:no-floating-promises array-type */
+import '../src/setupMaterialHook';
+import '../src/index.css';
+import { SheetsRegistry } from 'jss';
+import JssProvider from 'react-jss/lib/JssProvider';
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  createGenerateClassName,
+} from '@material-ui/core/styles';
 import * as path from 'path';
 import * as fs from 'fs';
-// import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64';
 
-import * as React from 'react';
-// import { Helmet } from 'react-helmet';
-// import { Provider } from 'react-redux';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
-// import { StaticRouter } from 'react-router-dom';
-// import { matchRoutes } from 'react-router-config';
+import { StaticRouter } from 'react-router-dom';
 
-// import configureStore from '../src/store';
-import App from '../src/App';
+import configureStore from '../src/configureStore';
+import AppContainer from '../src/containers/AppContainer';
 
-// import routes from '../src/routes';
-
-// const PrivateStores = ['auth'];
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 export default function universalLoader(req: any, res: any) {
   const filePath = path.resolve(__dirname, '..', 'build', 'index.html');
@@ -27,40 +37,50 @@ export default function universalLoader(req: any, res: any) {
       return res.status(404).end();
     }
     const context: any = {};
-    // const store = configureStore();
+    const store = configureStore();
+    // Create a sheetsRegistry instance.
+    const sheetsRegistry = new SheetsRegistry();
 
-    const requiredData: Array<any[]> = [];
-    // const branch = matchRoutes(routes, req.url);
-    // branch.forEach(({ route, match }: any) => {
-    //   if (route.component && route.component.fetchData) {
-    //     requiredData.push(route.component.fetchData(store, match));
-    //   }
-    // });
+    // Create a sheetsManager instance.
+    const sheetsManager = new Map();
+    const generateClassName = createGenerateClassName();
+    const markup = renderToString(
+      <JssProvider
+        registry={sheetsRegistry}
+        generateClassName={generateClassName}
+      >
+        <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+          <Provider store={store}>
+            <StaticRouter location={req.url} context={context}>
+              <AppContainer />
+            </StaticRouter>
+          </Provider>
+        </MuiThemeProvider>
+      </JssProvider>
+    );
 
-    Promise.all(requiredData).then(() => {
-      const markup = renderToString(<App />);
+    if (context.url) {
+      // Somewhere a `<Redirect>` was rendered
+      res.redirect(301, context.url);
+    } else {
+      const helmet = Helmet.renderStatic();
+      const headData = `${helmet.meta.toString()}${helmet.title.toString()}`;
 
-      if (context.url) {
-        // Somewhere a `<Redirect>` was rendered
-        res.redirect(301, context.url);
-      } else {
-        // const helmet = Helmet.renderStatic();
-        // const headData = `${helmet.meta.toString()}${helmet.title.toString()}`;
-
-        // prepare the serialized store (remove private keys)
-        // let storeForClient = store.getState();
-        // PrivateStores.forEach(key => delete storeForClient[key]);
-
-        // we're good, send the response
-        const RenderedApp = htmlData.replace('{{ SSR }}', markup);
-        // .replace(
-        //   '{{WINDOW_DATA}}',
-        //   Base64.encode(JSON.stringify(storeForClient))
-        // )
-        // .replace('<meta-head/>', headData);
-
-        res.status(context.statusCode || 200).send(RenderedApp);
-      }
-    });
+      const storeForClient = store.getState();
+      const css = sheetsRegistry.toString();
+      // we're good, send the response
+      const RenderedApp = htmlData
+        .replace('{{ SSR }}', markup)
+        .replace(
+          '{{ WINDOW_DATA }}',
+          Base64.encode(JSON.stringify(storeForClient))
+        )
+        .replace(
+          '<style id="jss-server-side"></style>',
+          `<style id="jss-server-side">${css}</style>`
+        )
+        .replace('<meta-head/>', headData);
+      res.status(context.statusCode || 200).send(RenderedApp);
+    }
   });
 }

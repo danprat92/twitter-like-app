@@ -19,7 +19,14 @@ module.exports = {
   resolve: {
     modules: [`${root}/node_modules`],
     // Add in `.ts` and `.tsx` as a resolvable extension.
+    mainFields: ['main'],
     extensions: ['.config.js', '.web.js', '.ts', '.tsx', '.js'],
+    alias: {
+      'core-js/features': `${root}/node_modules/@firebase/polyfill/node_modules/core-js/features`,
+      'jss-plugin-global/dist': `${root}/node_modules/@material-ui/styles/node_modules/jss-plugin-global/dist`,
+      'jss-plugin-nested/dist': `${root}/node_modules/@material-ui/styles/node_modules/jss-plugin-nested/dist`,
+      'jss-plugin-rule-value-function': `${root}/node_modules/@material-ui/styles/node_modules/jss-plugin-rule-value-function`,
+    },
   },
   module: {
     rules: [
@@ -38,6 +45,14 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.css$/,
+        use: ['css-loader'],
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000',
       },
     ],
   },

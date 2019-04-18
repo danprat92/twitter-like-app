@@ -1,4 +1,5 @@
 /* tslint:disable:no-var-requires */
+require('es6-promise').polyfill();
 import app from './app';
 
 const PORT = process.env.PORT || 3101;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import PublicLayout from '../PublicLayout';
 import './index.css';
 import { IRoute, routes } from '../../routes';
@@ -17,7 +17,7 @@ class App extends React.Component<IAppProps> {
   }
   public render() {
     return (
-      <BrowserRouter>
+      <React.Fragment>
         <Switch>
           {Object.keys(routes).map((current: string) => (
             <Route
@@ -27,9 +27,16 @@ class App extends React.Component<IAppProps> {
               render={props => this.renderComponent(routes[current], props)}
             />
           ))}
-          <Route render={() => <h1>Not found</h1>} />
+          <Route
+            render={({ staticContext }) => {
+              if (staticContext) {
+                staticContext.statusCode = 404;
+              }
+              return <h1>Not found</h1>;
+            }}
+          />
         </Switch>
-      </BrowserRouter>
+      </React.Fragment>
     );
   }
   private renderComponent(componentToRender: IRoute, props: any) {
